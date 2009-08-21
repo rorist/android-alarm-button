@@ -31,7 +31,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
+import android.view.LayoutInflater;
+import android.content.Context;
 
 public class Alarm extends Activity
 {
@@ -41,6 +42,7 @@ public class Alarm extends Activity
     private String mp_rng;
     private View btn;
     private SharedPreferences prefs;
+    protected LayoutInflater inflater = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -49,6 +51,7 @@ public class Alarm extends Activity
         setContentView(R.layout.main);
         
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         btn = findViewById(R.id.start_alarm);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -79,9 +82,11 @@ public class Alarm extends Activity
             return true;
         }
         else if(item.getItemId()==R.id.credits){
+            View alert_view = inflater.inflate(R.layout.credits, null);
             new AlertDialog.Builder(this)
                 .setTitle(R.string.credits_title)
-                .setMessage(R.string.credits_msg)
+                .setView(alert_view)
+//                .setMessage(R.string.credits_msg)
                 .setNeutralButton("Close", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dlg, int sumthin) {}
                 })

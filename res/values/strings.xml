@@ -18,5 +18,5 @@
 <resources>
     <string name="app_name">Alarm Button</string>
     <string name="credits_title">Credits</string>
-    <string name="credits_msg">This application is free software, published under the GPLv3 licence.\nhttp://code.google.com/p/AlarmButtonAndroid\n\n Aubort Jean-Baptiste and Leeroy Brun</string>
+    <string name="credits_msg">This application is free software, published under the GPLv3 licence.\nhttp://github.com/rorist/AlarmButton\n\n Aubort Jean-Baptiste and Leeroy Brun\nAugust 2009</string>
 </resources>
