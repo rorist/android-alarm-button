@@ -86,7 +86,6 @@ public class Alarm extends Activity
             new AlertDialog.Builder(this)
                 .setTitle(R.string.credits_title)
                 .setView(alert_view)
-//                .setMessage(R.string.credits_msg)
                 .setNeutralButton("Close", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dlg, int sumthin) {}
                 })
@@ -120,7 +119,8 @@ public class Alarm extends Activity
     private void setup() {
         try {
             //FIXME: How to store/retrieve float values in prefs ?
-            mp_vol = Float.parseFloat(prefs.getString("volume", "0")); //TODO: AddPrefListener anywhere
+            //TODO: AddPrefListener anywhere
+            mp_vol = Float.parseFloat(prefs.getString("volume", "0"));
             mp_rng = prefs.getString("ring", "alarm_sound");
         }
         catch (ClassCastException e) {
