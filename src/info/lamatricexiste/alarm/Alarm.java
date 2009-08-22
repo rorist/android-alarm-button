@@ -20,19 +20,19 @@ package info.lamatricexiste.alarm;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.LayoutInflater;
-import android.content.Context;
 
 public class Alarm extends Activity
 {
@@ -42,6 +42,7 @@ public class Alarm extends Activity
     private String mp_rng;
     private View btn;
     private SharedPreferences prefs;
+    private AnimationDrawable anim;
     protected LayoutInflater inflater = null;
 
     @Override
@@ -105,17 +106,19 @@ public class Alarm extends Activity
     }
 
     private void play() {
-        btn.setBackgroundResource(R.drawable.button_on);
+        btn.setBackgroundResource(R.drawable.animation);
+        anim = (AnimationDrawable)btn.getBackground();
+    	anim.start();
         mp.start();
     }
 
     private void stop() {
         btn.setBackgroundResource(R.drawable.button_off);
+        anim.stop();
         mp.stop();
         mp.release();
         loadClip();
     }
-
     private void setup() {
         try {
             //FIXME: How to store/retrieve float values in prefs ?
