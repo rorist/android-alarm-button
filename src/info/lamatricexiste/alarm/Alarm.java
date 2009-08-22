@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -41,10 +42,11 @@ public class Alarm extends Activity
     private String mp_rng;
     private View btn;
     private SharedPreferences prefs;
-    private AnimationDrawable anim;
+    private AnimationDrawable anim = null;
     private final String DEFAULT_RNG = "rng_default";
-    private final String DEFAULT_VOL = "0.8";
+    private final String DEFAULT_VOL = "0.5";
     private LayoutInflater inflater = null;
+    private AudioManager audioManager = null;
     
     private SharedPreferences.OnSharedPreferenceChangeListener prefListener=
 		new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -89,12 +91,23 @@ public class Alarm extends Activity
         loadClip();
         
         prefs.registerOnSharedPreferenceChangeListener(prefListener);
+        audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setStreamVolume(
+    		AudioManager.STREAM_MUSIC, 
+    		audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 
+    		0);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         stop();
+    }
+    
+    @Override
+    protected void onPause() {
+    	super.onPause();
+    	stop();
     }
 
     @Override
@@ -141,7 +154,9 @@ public class Alarm extends Activity
 
     private void stop() {
         btn.setBackgroundResource(R.drawable.button_off);
-        anim.stop();
+        if (anim!=null){
+        	anim.stop();
+        }
         mp.stop();
         mp.release();
         loadClip();
