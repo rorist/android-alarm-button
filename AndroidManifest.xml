@@ -18,8 +18,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="info.lamatricexiste.alarm"
       android:versionCode="1"
-      android:versionName="0.1">
-    <application android:label="@string/app_name">
+      android:versionName="0.1.0">
+    <application android:label="@string/app_name"
+    			 android:icon="@drawable/icon">
         <activity android:name=".Alarm"
                   android:label="@string/app_name">
             <intent-filter>

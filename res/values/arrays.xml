@@ -37,12 +37,16 @@
 
     <string-array name="ring_name">
         <item>Alarm (default)</item>
-        <item>Car alarm</item>
+        <item>Car Alarm</item>
+        <item>Smoke Alarm</item>
+        <item>Submarine Alarm</item>
     </string-array>
 
     <string-array name="ring_value">
         <item>rng_default</item>
         <item>alarm_sound</item>
+        <item>smoke_alarm</item>
+        <item>submarinealert</item>
     </string-array>
 
 </resources>

@@ -36,7 +36,6 @@ import android.view.View;
 
 public class Alarm extends Activity
 {
-
     private MediaPlayer mp;
     private Float mp_vol;
     private String mp_rng;
@@ -44,7 +43,7 @@ public class Alarm extends Activity
     private SharedPreferences prefs;
     private AnimationDrawable anim;
     private final String DEFAULT_RNG = "rng_default";
-    private final String DEFAULT_VOL = "0.5";
+    private final String DEFAULT_VOL = "0.8";
     private LayoutInflater inflater = null;
     
     private SharedPreferences.OnSharedPreferenceChangeListener prefListener=
