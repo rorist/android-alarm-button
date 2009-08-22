@@ -43,7 +43,32 @@ public class Alarm extends Activity
     private View btn;
     private SharedPreferences prefs;
     private AnimationDrawable anim;
-    protected LayoutInflater inflater = null;
+    private final String DEFAULT_RNG = "rng_default";
+    private final String DEFAULT_VOL = "0.5";
+    private LayoutInflater inflater = null;
+    
+    private SharedPreferences.OnSharedPreferenceChangeListener prefListener=
+		new SharedPreferences.OnSharedPreferenceChangeListener() {
+			public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
+				if (key.equals("volume")) {
+					setup();
+					if(mp.isPlaying()){
+						mp.setVolume(mp_vol, mp_vol);
+					}
+					else {
+				        mp.release();
+				        loadClip();
+					}
+				}
+				else if (key.equals("ring")){
+					setup();
+					if(!mp.isPlaying()) {
+						mp.release();
+						loadClip();
+					}
+				}
+			}
+		};
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -62,6 +87,9 @@ public class Alarm extends Activity
         });
 
         setup();
+        loadClip();
+        
+        prefs.registerOnSharedPreferenceChangeListener(prefListener);
     }
 
     @Override
@@ -121,22 +149,18 @@ public class Alarm extends Activity
     }
     private void setup() {
         try {
-            //FIXME: How to store/retrieve float values in prefs ?
-            //TODO: AddPrefListener anywhere
-            mp_vol = Float.parseFloat(prefs.getString("volume", "0"));
-            mp_rng = prefs.getString("ring", "alarm_sound");
+            mp_vol = Float.parseFloat(prefs.getString("volume", DEFAULT_VOL));
+            mp_rng = prefs.getString("ring", DEFAULT_RNG);
         }
         catch (ClassCastException e) {
             e.printStackTrace();
         }
-
-        loadClip();
     }
 
     private void loadClip() {
         try {
             mp=MediaPlayer.create(this, getResources().getIdentifier(mp_rng, "raw", this.getPackageName()));
-            mp.setVolume(mp_vol, mp_vol);
+        	mp.setVolume(mp_vol, mp_vol);
             mp.setLooping(true);
         }
         catch (Throwable t) {}
