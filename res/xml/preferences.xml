@@ -24,8 +24,8 @@
         android:dialogTitle="Choose a volume level"/>
     <ListPreference
         android:key="ring"
-        android:title="Ringtone"
-        android:summary="Change the ringtone"
+        android:title="Ringtones"
+        android:summary="Choose different ringtones"
         android:entries="@array/ring_name"
         android:entryValues="@array/ring_value"
         android:dialogTitle="Choose the ringtone"/>
