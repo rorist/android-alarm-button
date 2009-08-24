@@ -49,27 +49,27 @@ public class Alarm extends Activity
     private AudioManager audioManager = null;
     
     private SharedPreferences.OnSharedPreferenceChangeListener prefListener=
-		new SharedPreferences.OnSharedPreferenceChangeListener() {
-			public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
-				if (key.equals("volume")) {
-					setup();
-					if(mp.isPlaying()){
-						mp.setVolume(mp_vol, mp_vol);
-					}
-					else {
-				        mp.release();
-				        loadClip();
-					}
-				}
-				else if (key.equals("ring")){
-					setup();
-					if(!mp.isPlaying()) {
-						mp.release();
-						loadClip();
-					}
-				}
-			}
-		};
+        new SharedPreferences.OnSharedPreferenceChangeListener() {
+            public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
+                if (key.equals("volume")) {
+                    setup();
+                    if(mp.isPlaying()){
+                        mp.setVolume(mp_vol, mp_vol);
+                    }
+                    else {
+                        mp.release();
+                        loadClip();
+                    }
+                }
+                else if (key.equals("ring")){
+                    setup();
+                    if(!mp.isPlaying()) {
+                        mp.release();
+                        loadClip();
+                    }
+                }
+            }
+        };
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -93,9 +93,9 @@ public class Alarm extends Activity
         prefs.registerOnSharedPreferenceChangeListener(prefListener);
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamVolume(
-    		AudioManager.STREAM_MUSIC, 
-    		audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 
-    		0);
+            AudioManager.STREAM_MUSIC, 
+            audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 
+            0);
     }
 
     @Override
@@ -106,8 +106,8 @@ public class Alarm extends Activity
     
     @Override
     protected void onPause() {
-    	super.onPause();
-    	stop();
+        super.onPause();
+        stop();
     }
 
     @Override
@@ -148,14 +148,14 @@ public class Alarm extends Activity
     private void play() {
         btn.setBackgroundResource(R.drawable.animation);
         anim = (AnimationDrawable)btn.getBackground();
-    	anim.start();
+        anim.start();
         mp.start();
     }
 
     private void stop() {
         btn.setBackgroundResource(R.drawable.button_off);
         if (anim!=null){
-        	anim.stop();
+            anim.stop();
         }
         mp.stop();
         mp.release();
@@ -174,7 +174,7 @@ public class Alarm extends Activity
     private void loadClip() {
         try {
             mp=MediaPlayer.create(this, getResources().getIdentifier(mp_rng, "raw", this.getPackageName()));
-        	mp.setVolume(mp_vol, mp_vol);
+            mp.setVolume(mp_vol, mp_vol);
             mp.setLooping(true);
         }
         catch (Throwable t) {}

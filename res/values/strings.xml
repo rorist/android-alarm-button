@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_name">Alarm Button</string>
+    <string name="app_name">Panic Button</string>
     <string name="credits_title">Credits</string>
     <string name="credits_msg">This application is free software, published under the GPLv3 licence.\nhttp://github.com/rorist/android-alarm-button\n\nAubort Jean-Baptiste\nAugust 2009</string>
 </resources>
