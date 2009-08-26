@@ -40,13 +40,11 @@ public class Alarm extends Activity
     private MediaPlayer mp;
     private Float mp_vol;
     private String mp_rng;
-    private View btn;
     private SharedPreferences prefs;
     private AnimationDrawable anim = null;
     private final String DEFAULT_RNG = "rng_default";
     private final String DEFAULT_VOL = "0.5";
     private LayoutInflater inflater = null;
-    private AudioManager audioManager = null;
     
     private SharedPreferences.OnSharedPreferenceChangeListener prefListener=
         new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -80,18 +78,21 @@ public class Alarm extends Activity
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        btn = findViewById(R.id.start_alarm);
+        View btn = findViewById(R.id.start_alarm);
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 StartAlarm();
             }
         });
+        btn.setBackgroundResource(R.drawable.animation);
+        anim = (AnimationDrawable)btn.getBackground();
+        
 
         setup();
         loadClip();
         
         prefs.registerOnSharedPreferenceChangeListener(prefListener);
-        audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamVolume(
             AudioManager.STREAM_MUSIC, 
             audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 
@@ -146,17 +147,13 @@ public class Alarm extends Activity
     }
 
     private void play() {
-        btn.setBackgroundResource(R.drawable.animation);
-        anim = (AnimationDrawable)btn.getBackground();
         anim.start();
         mp.start();
     }
 
     private void stop() {
-        btn.setBackgroundResource(R.drawable.button_off);
-        if (anim!=null){
-            anim.stop();
-        }
+        anim.stop();
+        anim.selectDrawable(0);
         mp.stop();
         mp.release();
         loadClip();
@@ -166,9 +163,7 @@ public class Alarm extends Activity
             mp_vol = Float.parseFloat(prefs.getString("volume", DEFAULT_VOL));
             mp_rng = prefs.getString("ring", DEFAULT_RNG);
         }
-        catch (ClassCastException e) {
-            e.printStackTrace();
-        }
+        catch (ClassCastException e) {}
     }
 
     private void loadClip() {
