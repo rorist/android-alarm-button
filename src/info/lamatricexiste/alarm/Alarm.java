@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package info.lamatricexiste.alarm;
 
@@ -35,8 +35,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class Alarm extends Activity
-{
+public class Alarm extends Activity {
     private MediaPlayer mp;
     private Float mp_vol;
     private String mp_rng;
@@ -45,38 +44,35 @@ public class Alarm extends Activity
     private final String DEFAULT_RNG = "rng_default";
     private final String DEFAULT_VOL = "0.5";
     private LayoutInflater inflater = null;
-    
-    private SharedPreferences.OnSharedPreferenceChangeListener prefListener=
-        new SharedPreferences.OnSharedPreferenceChangeListener() {
-            public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
-                if (key.equals("volume")) {
-                    setup();
-                    if(mp.isPlaying()){
-                        mp.setVolume(mp_vol, mp_vol);
-                    }
-                    else {
-                        mp.release();
-                        loadClip();
-                    }
+
+    private SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        public void onSharedPreferenceChanged(SharedPreferences sharedPrefs,
+                String key) {
+            if (key.equals("volume")) {
+                setup();
+                if (mp.isPlaying()) {
+                    mp.setVolume(mp_vol, mp_vol);
+                } else {
+                    mp.release();
+                    loadClip();
                 }
-                else if (key.equals("ring")){
-                    setup();
-                    if(!mp.isPlaying()) {
-                        mp.release();
-                        loadClip();
-                    }
+            } else if (key.equals("ring")) {
+                setup();
+                if (!mp.isPlaying()) {
+                    mp.release();
+                    loadClip();
                 }
             }
-        };
+        }
+    };
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View btn = findViewById(R.id.start_alarm);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -85,18 +81,15 @@ public class Alarm extends Activity
             }
         });
         btn.setBackgroundResource(R.drawable.animation);
-        anim = (AnimationDrawable)btn.getBackground();
-        
+        anim = (AnimationDrawable) btn.getBackground();
 
         setup();
         loadClip();
-        
+
         prefs.registerOnSharedPreferenceChangeListener(prefListener);
-        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setStreamVolume(
-            AudioManager.STREAM_MUSIC, 
-            audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 
-            0);
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager
+                .getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
     }
 
     @Override
@@ -104,7 +97,7 @@ public class Alarm extends Activity
         super.onDestroy();
         stop();
     }
-    
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -119,29 +112,27 @@ public class Alarm extends Activity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.settings){
+        if (item.getItemId() == R.id.settings) {
             startActivity(new Intent(this, Prefs.class));
             return true;
-        }
-        else if(item.getItemId()==R.id.credits){
+        } else if (item.getItemId() == R.id.credits) {
             View alert_view = inflater.inflate(R.layout.credits, null);
-            new AlertDialog.Builder(this)
-                .setTitle(R.string.credits_title)
-                .setView(alert_view)
-                .setNeutralButton("Close", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dlg, int sumthin) {}
-                })
-                .show();
+            new AlertDialog.Builder(this).setTitle(R.string.credits_title)
+                    .setView(alert_view).setNeutralButton("Close",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dlg,
+                                        int sumthin) {
+                                }
+                            }).show();
             return true;
         }
         return (super.onOptionsItemSelected(item));
     }
 
     private void StartAlarm() {
-        if(mp.isPlaying()) {
+        if (mp.isPlaying()) {
             stop();
-        }
-        else {
+        } else {
             play();
         }
     }
@@ -158,20 +149,22 @@ public class Alarm extends Activity
         mp.release();
         loadClip();
     }
+
     private void setup() {
         try {
             mp_vol = Float.parseFloat(prefs.getString("volume", DEFAULT_VOL));
             mp_rng = prefs.getString("ring", DEFAULT_RNG);
+        } catch (ClassCastException e) {
         }
-        catch (ClassCastException e) {}
     }
 
     private void loadClip() {
         try {
-            mp=MediaPlayer.create(this, getResources().getIdentifier(mp_rng, "raw", this.getPackageName()));
+            mp = MediaPlayer.create(this, getResources().getIdentifier(mp_rng,
+                    "raw", this.getPackageName()));
             mp.setVolume(mp_vol, mp_vol);
             mp.setLooping(true);
+        } catch (Throwable t) {
         }
-        catch (Throwable t) {}
     }
 }

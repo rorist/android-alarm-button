@@ -13,18 +13,17 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package info.lamatricexiste.alarm;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-public class Prefs extends PreferenceActivity
-{
-   @Override
-   public void onCreate(Bundle savedInstanceState) {
-       super.onCreate(savedInstanceState);
-       addPreferencesFromResource(R.xml.preferences);
-   }
+public class Prefs extends PreferenceActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.preferences);
+    }
 }
